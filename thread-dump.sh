@@ -100,11 +100,11 @@ if [[ ${#pid} -le 0 ]]; then
     exit 1
 fi
 
-i=0
-while [[ "$i" -lt "$dumps" ]]; do
+i=1
+while [[ "$i" -le "$dumps" ]]; do
     output="$output_dir/$(printf "${output_prefix}-%02d${output_extension}" "$i")"
 
-    echo "Performing thread dump $(($i+1)) of $dumps"
+    echo "Performing thread dump $i of $dumps"
     jstack "$pid" > "$output"
 
     echo -e "Sleeping $wait seconds before next thread dump...\n"
