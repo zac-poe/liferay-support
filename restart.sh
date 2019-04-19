@@ -9,7 +9,7 @@
 cd "$(dirname "$0")"
 
 # defaults
-max_wait_seconds=20
+max_wait_seconds=25
 webserver='tomcat'
 liferay_home="$(pwd)"
 
