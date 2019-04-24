@@ -12,7 +12,7 @@ cd "$(dirname "$0")"
 max_wait_seconds=8
 webserver='tomcat'
 liferay_home="$(pwd)"
-kill_prompt_timeout=4
+kill_prompt_timeout=5
 
 usage() {
     echo "Usage: $(basename "$0") [-s seconds] [-w webserver] [-l liferay]"
@@ -83,7 +83,8 @@ if [[ $(get_liferay_process | wc -l) -gt 0 ]]; then
         printf '.'
 
         if [[ $i -gt $max_wait_seconds ]]; then
-            printf "\nWebserver has not yet shutdown gracefully. Kill webserver? [Ny]: "
+            echo -e "\nWebserver has not yet shutdown gracefully"
+            printf "Kill ${webserver}? (automatically continuing to wait in $kill_prompt_timeout seconds) [Ny]: "
             read -t "$kill_prompt_timeout" response
             if [[ $? -ne 0 ]]; then
                 echo ''
@@ -92,7 +93,7 @@ if [[ $(get_liferay_process | wc -l) -gt 0 ]]; then
                 pid="$(get_liferay_process | awk '{print $2}')"
                 if [[ ${#pid} -gt 0 ]]; then
                     kill -9 $pid
-                    echo -e "\nWebserver has been forcefully killed"
+                    printf "\nWebserver has been forcefully killed"
                 else
                     echo -e "\nElegant shutdown of Liferay was already successful"
                 fi
