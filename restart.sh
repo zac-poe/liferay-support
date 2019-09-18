@@ -6,7 +6,7 @@
 # it will prompt the user to forcefully kill the webserver.
 #
 
-cd "$(dirname "$0")"
+cd "$(cd "$(dirname "$([[ -h "$0" ]] && readlink "$0" || echo "$0")")" && pwd)"
 
 # defaults
 max_wait_seconds=7
